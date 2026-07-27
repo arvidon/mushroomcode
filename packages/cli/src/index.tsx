@@ -4,6 +4,7 @@ import { createMemoryRouter, RouterProvider } from "react-router";
 import { RootLayout } from "./layout/root-layout";
 import { Home } from "./screens/home";
 import { NewSession } from "./screens/new-session";
+import { Session } from "./screens/session";
 
 
 const router = createMemoryRouter([
@@ -13,7 +14,7 @@ const router = createMemoryRouter([
     children: [
       {index: true, element: <Home />},
       {path: "sessions/new", element: <NewSession/>},
-      {path: "sessions/:id", element: <box><text>sessions/:id</text></box>}
+      {path: "sessions/:id", element: <Session />}
     ]
   }
 ])

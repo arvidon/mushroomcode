@@ -5,6 +5,7 @@ import type { ToastOptions, ToastVariant } from "./types"
 import { DEFAULT_DURATION } from "./types"
 import { SplitBorderChars } from "../../components/border"
 import { useTheme } from "../theme"
+import { useMemo } from "react"
 
 export type ToastContextValue = {
     show: (options: ToastOptions) => void
@@ -53,9 +54,7 @@ export function ToastProvider({children}: ToastProviderProps){
         }, duration).unref()
     }, [clearCurrentTimeout])
 
-    const value: ToastContextValue = {
-        show
-    }
+    const value = useMemo(() => ({show}), [show])
 
     return(
         <ToastContext.Provider value = {value}>
