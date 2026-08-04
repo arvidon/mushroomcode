@@ -1,4 +1,5 @@
-import { ThemeDialog } from "../dialogs"
+import { SUPPORTED_CHAT_MODELS } from "@mushroomcode/shared"
+import { AgentsDialogContent, SessionsDialogContent, ThemeDialog, ModelsDialogContent } from "../dialogs"
 import type { Command } from "./types"
 
 export const COMMANDS: Command[] = [
@@ -7,7 +8,7 @@ export const COMMANDS: Command[] = [
         description: "start a new conversation",
         value: "/new",
         action: (ctx) => {
-            ctx.toast.show({message: "start a new conversation..."})
+            ctx.navigate('/')
         }
     },
     {
@@ -15,7 +16,10 @@ export const COMMANDS: Command[] = [
         description: "switsch between agents",
         value: "/agents",
         action: (ctx) => {
-            ctx.toast.show({message: "Switchinhg agents"})
+            ctx.dialog.open({
+                title: "Select Agent",
+                children: <AgentsDialogContent currentMode={ctx.mode} onSelectMode={ctx.setMode}/>
+            })
         }
     },
     {
@@ -23,7 +27,12 @@ export const COMMANDS: Command[] = [
         description: "select AI model for generation",
         value: "/models",
         action: (ctx) => {
-            ctx.toast.show({message: "Selecting Model"})
+            ctx.dialog.open({
+                title: "Select Agent",
+                children: <ModelsDialogContent models={SUPPORTED_CHAT_MODELS.map((model) => model.id)}
+                onSelectModel={ctx.setModel}
+                />
+            })
         }
     },
     {
@@ -31,7 +40,10 @@ export const COMMANDS: Command[] = [
         description: "browse past sessions",
         value: "/sessions",
         action: (ctx) => {
-            ctx.toast.show({message: "Loading sessions"})
+            ctx.dialog.open({
+                title: "Select session",
+                children: <SessionsDialogContent/>
+            })
         }
     },
     {
