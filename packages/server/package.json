@@ -13,6 +13,7 @@
     "dependencies": {
         "@ai-sdk/anthropic": "^4.0.23",
         "@ai-sdk/openai": "^4.0.22",
+        "@ai-sdk/provider-utils": "^5.0.20",
         "@hono/zod-validator": "^0.9.0",
         "@mushroomcode/database": "workspace:*",
         "@mushroomcode/shared": "workspace:*",
