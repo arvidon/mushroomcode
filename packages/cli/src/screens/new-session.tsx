@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useRef} from "react"
 import {z} from "zod"
-import {DEFAULT_CHAT_MODEL_ID} from "@mushroomcode/shared"
+import { Mode } from "@mushroomcode/database"
 import { useNavigate, useLocation } from "react-router"
 import { useTheme } from "../providers/theme"
 import { UserMessage } from "../components/messages"
@@ -10,7 +10,9 @@ import {apiClient} from "../lib/api-client"
 import { getErrorMessage } from "../lib/http-errors"
 
 const newSessionStateSchema = z.object({
-    message: z.string()
+    message: z.string(),
+    mode: z.enum(Mode),
+    model: z.string()
 })
 
 export function NewSession(){
@@ -47,8 +49,8 @@ export function NewSession(){
                         initialMessage: {
                             role: "USER",
                             content: state.message,
-                            mode: "BUILD", 
-                            model: DEFAULT_CHAT_MODEL_ID
+                            mode: state.mode, 
+                            model: state.model
                         }
                     }
                 })
@@ -83,7 +85,7 @@ export function NewSession(){
 
     return(
         <SessionShell onSubmit={() => {}} inputDisabled loading>
-            <UserMessage message={state.message} />
+            <UserMessage message={state.message} mode={state.mode}/>
         </SessionShell>
     )
 }

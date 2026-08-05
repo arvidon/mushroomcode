@@ -43,7 +43,7 @@ model Message{
   id String @id @default(cuid())
   sessionId String
   role Role
-  message MessageStatus
+  status MessageStatus
   model String
   content String
   parts Json?
