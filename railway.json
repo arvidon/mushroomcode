@@ -4,7 +4,6 @@
     "builder": "DOCKERFILE"
   },
   "deploy": {
-    "preDeployCommand": ["bun run --cwd packages/database db:push"],
     "startCommand": "bun run start",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 120,
