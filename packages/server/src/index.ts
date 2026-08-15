@@ -5,6 +5,8 @@ import chat from "./routes/chat"
 
 const app = new Hono()
 
+app.get("/health", (c) => c.json({ status: "ok" }))
+
 app.onError((error, c) => {
     if(error instanceof HTTPException){
         return c.json({
@@ -42,4 +44,9 @@ const routes = app.route("/sessions", sessions).route("/chat", chat)
 
 export type AppType = typeof routes
 
-export default {port: 3000, fetch: app.fetch, idleTimeout: 255};
+Bun.serve({
+    hostname: "0.0.0.0",
+    port: Number(process.env.PORT ?? 3000),
+    fetch: app.fetch,
+    idleTimeout: 255,
+})
