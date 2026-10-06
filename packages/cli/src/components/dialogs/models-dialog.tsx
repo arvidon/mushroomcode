@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import { useDialog } from "../../providers/dialog";
 import { DialogSearchList } from "../dialog-search-list";
-import { Mode } from "@mushroomcode/database/enums";
 import type { SupportChatModelId } from "@mushroomcode/shared";
 
 type ModelsDialogContentProps = {

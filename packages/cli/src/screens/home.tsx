@@ -4,16 +4,29 @@ import { Header } from "../components/header";
 import { InputBar } from "../components/input-bar";
 import { usePromptConfig } from "../providers/prompt-config";
 import { TextAttributes } from "@opentui/core";
+import { getAuth } from "../lib/auth";
+import { performLogin } from "../lib/oauth";
+import { useToast } from "../providers/toast";
 
 export function Home() {
   const navigate = useNavigate();
   const { mode, model } = usePromptConfig();
+  const toast = useToast();
 
   const handleSubmit = useCallback(
-    (text: string) => {
+    async (text: string) => {
+      if (!getAuth()) {
+        toast.show({ message: "Sign in to this backend to continue. Opening browser..." });
+        try {
+          await performLogin();
+        } catch (error) {
+          toast.show({ variant: "error", message: error instanceof Error ? error.message : "Sign-in failed" });
+          return;
+        }
+      }
       navigate("/sessions/new", { state: { message: text, mode, model } });
     },
-    [navigate, mode, model],
+    [navigate, mode, model, toast],
   );
 
   return (

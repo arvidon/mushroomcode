@@ -1,32 +1,36 @@
 import { createContext, useContext, useState, useCallback } from "react";
 import type { ReactNode } from "react";
-import { DEFAULT_CHAT_MODEL_ID, type SupportChatModelId } from "@mushroomcode/shared";
-import { Mode } from "@mushroomcode/database/enums";
+import { 
+  DEFAULT_CHAT_MODEL_ID, 
+  Mode,
+  type ModeType,
+  type SupportChatModelId,
+} from "@mushroomcode/shared";
 
 type PromptConfigContextValue = {
-    mode: Mode
-    toggleMode: () => void
-    setMode: (mode: Mode) => void
-    model: SupportChatModelId
-    setModel: (model: SupportChatModelId) => void
-}
+  mode: ModeType;
+  toggleMode: () => void;
+  setMode: (mode: ModeType) => void;
+  model: SupportChatModelId;
+  setModel: (model: SupportChatModelId) => void;
+};
 
-const PromptConfigContext = createContext<PromptConfigContextValue | null>(null)
+const PromptConfigContext = createContext<PromptConfigContextValue | null>(null);
 
 export function usePromptConfig(): PromptConfigContextValue {
   const value = useContext(PromptConfigContext);
   if (!value) {
-    throw new Error("usePromptConfig must be used within a PromptConfigProvider")
+    throw new Error("usePromptConfig must be used within a PromptConfigProvider");
   }
-  return value
-}
+  return value;
+};
 
 type PromptConfigProviderProps = {
   children: ReactNode;
 };
 
 export function PromptConfigProvider({ children }: PromptConfigProviderProps) {
-  const [mode, setMode] = useState<Mode>(Mode.BUILD);
+  const [mode, setMode] = useState<ModeType>(Mode.BUILD);
   const [model, setModel] = useState<SupportChatModelId>(DEFAULT_CHAT_MODEL_ID);
 
   const toggleMode = useCallback(() => {

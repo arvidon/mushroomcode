@@ -1,16 +1,16 @@
 import { useCallback } from "react";
 import { useDialog } from "../../providers/dialog";
 import { DialogSearchList } from "../dialog-search-list";
-import { Mode } from "@mushroomcode/database/enums";
+import { Mode, type ModeType } from "@mushroomcode/shared";
 
-const AVAILABLE_MODES: Mode[] = [Mode.BUILD, Mode.PLAN];
+const AVAILABLE_MODES: ModeType[] = [Mode.BUILD, Mode.PLAN];
 
 type AgentsDialogContentProps = {
-  currentMode: Mode;
-  onSelectMode: (mode: Mode) => void;
+  currentMode: ModeType;
+  onSelectMode: (mode: ModeType) => void;
 };
 
-function getModeLabel(mode: Mode) {
+function getModeLabel(mode: ModeType) {
   return mode === Mode.PLAN ? "Plan" : "Build";
 }
 
@@ -21,20 +21,18 @@ export const AgentsDialogContent = ({
   const dialog = useDialog();
 
   const handleSelect = useCallback(
-    (nextMode: Mode) => {
+    (nextMode: ModeType) => {
       onSelectMode(nextMode);
       dialog.close();
     },
     [onSelectMode, dialog],
   );
 
+
   return (
     <DialogSearchList
       items={AVAILABLE_MODES}
       onSelect={handleSelect}
-      onHighlight={(session) => {
-            // whatever should happen when the highlighted item changes
-        }}
       filterFn={(item, query) => getModeLabel(item).toLowerCase().includes(query.toLowerCase())}
       renderItem={(item, isSelected) => (
         <text selectable={false} fg={isSelected ? "black" : "white"}>

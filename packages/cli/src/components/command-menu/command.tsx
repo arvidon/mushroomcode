@@ -1,6 +1,9 @@
 import { SUPPORTED_CHAT_MODELS } from "@mushroomcode/shared"
 import { AgentsDialogContent, SessionsDialogContent, ThemeDialog, ModelsDialogContent } from "../dialogs"
 import type { Command } from "./types"
+import { performLogin } from "../../lib/oauth"
+import { clearAuth } from "../../lib/auth"
+import { openUpgradeCheckout, openBillingPortal } from "../../lib/upgrade"
 
 export const COMMANDS: Command[] = [
     {
@@ -61,8 +64,17 @@ export const COMMANDS: Command[] = [
         name: "login",
         description: "Sign in with your browser",
         value: "/login",
-        action: (ctx) => {
-            ctx.toast.show({message: "Opening browser to sign in "})
+        action: async (ctx) => {
+            ctx.toast.show({message: "Opening browser to sign in..."})
+            try {
+                await performLogin()
+                ctx.toast.show({variant: "success", message: "Signed in successfully"})
+            } catch (error) {
+                ctx.toast.show({
+                    variant: "error",
+                    message: error instanceof Error ? error.message : "Sign-in failed",
+                })
+            }
         }
     },
     {
@@ -70,6 +82,7 @@ export const COMMANDS: Command[] = [
         description: "sign out of your account",
         value: "/logout",
         action: (ctx) => {
+            clearAuth()
             ctx.toast.show({variant: "success", message: "Signed out"})
         }
     },
@@ -77,16 +90,24 @@ export const COMMANDS: Command[] = [
         name: "upgrade",
         description: "buy more credits",
         value: "/upgrade",
-        action: (ctx) => {
+        action: async (ctx) => {
             ctx.toast.show({message: "Opening credits checkout..."})
+            try { await openUpgradeCheckout() }
+            catch (error) {
+                ctx.toast.show({variant: "error", message: error instanceof Error ? error.message : "Checkout failed"})
+            }
         }
     },
     {
         name: "usage",
         description: "Open billing portal in your browser",
         value: "/usage",
-        action: (ctx) => {
+        action: async (ctx) => {
             ctx.toast.show({message: "Opening billing portal..."})
+            try { await openBillingPortal() }
+            catch (error) {
+                ctx.toast.show({variant: "error", message: error instanceof Error ? error.message : "Billing portal failed"})
+            }
         }
     }, 
     {

@@ -5,6 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN bun install --frozen-lockfile
+RUN bun run --cwd packages/database db:generate
 RUN bun run build
 
 CMD ["bun", "run", "start"]

@@ -4,12 +4,12 @@
     "private": true,
     "exports": {
         ".": "./src/index.ts",
-        "./client": "./src/client.ts",
-        "./enums": "./src/enums.ts"
+        "./client": "./src/client.ts"
     },
     "scripts": {
-        "db:generate": "bunx prisma generate",
-        "db:push": "bunx prisma db push"
+        "db:generate": "bun scripts/prisma.ts generate",
+        "db:migrate:deploy": "bun scripts/prisma.ts migrate deploy",
+        "db:push": "bun scripts/prisma.ts db push"
     },
     "devDependencies": {
         "@types/node": "^26.1.1",

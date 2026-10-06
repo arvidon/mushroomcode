@@ -1,21 +1,20 @@
-import type { Mode } from "@mushroomcode/database/enums"
-import type { DialogContextValue } from "../../providers/dialog"
-import type { ToastContextValue } from "../../providers/toast"
-import type { SupportChatModelId } from "@mushroomcode/shared"
+import type { DialogContextValue } from "../../providers/dialog";
+import type { ToastContextValue } from "../../providers/toast";
+import type { ModeType, SupportChatModelId } from "@mushroomcode/shared";
 
 export type CommandContext = {
-    exit: () => void
-    toast: ToastContextValue
-    dialog: DialogContextValue
-    navigate: (path: string) => void
-    mode: Mode
-    setMode: (mode: Mode) => void
-    setModel: (model: SupportChatModelId) => void
-}
+  exit: () => void;
+  toast: ToastContextValue;
+  dialog: DialogContextValue;
+  navigate: (path: string) => void;
+  mode: ModeType;
+  setMode: (mode: ModeType) => void;
+  setModel: (model: SupportChatModelId) => void;
+};
 
 export type Command = {
-    name: string
-    description: string
-    value: string
-    action?: (ctx: CommandContext) => void | Promise<void>
-}
+  name: string;
+  description: string;
+  value: string;
+  action?: (ctx: CommandContext) => void | Promise<void>;
+};
